@@ -3,8 +3,8 @@ from validation import InputValidation
 class Student:
     def __init__(self, id, name, grade):
         self._id = id
-        self.name = name
-        self.grade = grade
+        self._name = name
+        self._grade = grade
 
 #add delete student
     @property
@@ -35,6 +35,11 @@ class Student:
         return {'id': self._id, 'name': self._name, 'grade': self._grade}
 
 
+    def attribute_list(self):
+        list = [self._id, self._name, self._grade]
+        return list
+
+
     @classmethod
     def class_name(cls):
         return cls.__name__
@@ -42,7 +47,7 @@ class Student:
 
     @classmethod
     def sql_fields(cls):
-        return 'id INTEGER, name TEXT, grade TEXT'
+        return 'id INTEGER UNIQUE, name TEXT NOT NULL, grade TEXT NOT NULL' #tak in system
     
     
 

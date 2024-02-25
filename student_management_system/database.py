@@ -14,6 +14,12 @@ class DataBase:
             query = f"CREATE TABLE IF NOT EXISTS {self.table} ({self.fields})"
             self.conn.execute(query)
     
+    
+    def is_empty(self):
+        query = f"SELECT COUNT(*) FROM {self.table}"
+        result = self.conn.execute(query).fetchone()
+        return result[0] == 0
+
 
     def insert_data(self, data):
         with self.conn:
@@ -27,25 +33,24 @@ class DataBase:
             query = f'SELECT * FROM {self.table}'
             cursor = self.conn.execute(query)
             # rows = cursor.fetchall()
-            return cursor
+            return cursor.fetchall()
 
 
     def get_by_criteria(self, by): #one item dict
         field = list(by.keys())[0]
         with self.conn:
-            query = f'SELECT * FROM {self.table} WHERE {field} = :{field}'
+            by_field = ' AND '.join([f'{field} = :{field}' for field in by.keys()])
+            query = f'SELECT * FROM {self.table} WHERE {by_field}'
             cursor = self.conn.execute(query, by)
-            # rows = cursor.fetchall()
-
-            # return [self.class_name(*row) for row in rows] if rows else None
-            return cursor
+            return cursor.fetchall()
+      
         
 
     def get_field_by_criterias(self, field):
         with self.conn:
             query = f'SELECT {field} FROM {self.table}'
             cursor = self.conn.execute(query)
-            return cursor
+            return cursor.fetchall()
 
 
     def update_by_criteria(self, set_object): 
