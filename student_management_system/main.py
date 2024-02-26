@@ -1,6 +1,6 @@
-from menu import StudentManagmentSystem
-from sxva import Display
-from new_menu import Menu
+from student_ms import StudentManagmentSystem
+from display import Display
+from menu import Menu
 
 #add sleep
 def main():
